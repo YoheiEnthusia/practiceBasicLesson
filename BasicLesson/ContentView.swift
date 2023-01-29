@@ -23,7 +23,7 @@ extension Image {
 }
 
 struct ContentView: View {
-    private let imageURL: String = "https://credo.academy/credo-academy@3x.png"
+    private let imageURL: String = "https://credo.academy/credo-academy@3x.pn"
     
     
     var body: some View {
@@ -31,6 +31,7 @@ struct ContentView: View {
 //        AsyncImage(url: URL(string: imageURL), scale: 3.0)
         
         // MARK: - 2. プレースホルダー
+        /*
         AsyncImage(url: URL(string: imageURL)) { image in
             image.imageModifier()
         } placeholder: {
@@ -38,6 +39,18 @@ struct ContentView: View {
         }
         .padding(40)
 
+        */
+        
+        // MARK: - フェーズを使用して、エラーハンドリング
+        AsyncImage(url: URL(string: imageURL)) { phase in
+            if let image = phase.image {
+                image.imageModifier()
+            } else if phase.error != nil {
+                Image(systemName: "ant.circle.fill").iconModifier()
+            } else {
+                Image(systemName: "photo.circle.fill").iconModifier()
+            }
+        }.padding(40)
     }
 }
 
